@@ -9,7 +9,7 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  static const int twentyFive = 3;
+  static const int twentyFive = 1500;
   int totalSeconds = twentyFive;
   int totalPomodoros = 0;
   bool isRunning = true;
@@ -48,6 +48,15 @@ class _HomescreenState extends State<Homescreen> {
     }
   }
 
+  void onStopPressed() {
+    setState(() {
+      icon = const Icon(Icons.play_circle_outline_outlined);
+      totalSeconds = twentyFive;
+      timer.cancel();
+      isRunning = true;
+    });
+  }
+
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
     return duration.toString().split('.').first.substring(2, 7);
@@ -74,13 +83,24 @@ class _HomescreenState extends State<Homescreen> {
           ),
           Flexible(
             flex: 3,
-            child: Center(
-              child: IconButton(
-                iconSize: 120,
-                color: Theme.of(context).cardColor,
-                onPressed: onPressed,
-                icon: icon,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  iconSize: 120,
+                  color: Theme.of(context).cardColor,
+                  onPressed: onPressed,
+                  icon: icon,
+                ),
+                IconButton(
+                  onPressed: onStopPressed,
+                  icon: const Icon(
+                    Icons.stop_circle_outlined,
+                  ),
+                  color: Theme.of(context).cardColor,
+                  iconSize: 50,
+                ),
+              ],
             ),
           ),
           Flexible(
